@@ -1,0 +1,36 @@
+// Cycle check using dfs
+const int N = 1e5 + 5;
+int parent = -1;
+vector<bool>vis(N);
+vector<int>v[N]; // for edges
+bool CycleCheck(int node)
+{
+  vis[node] = true;
+  for(auto nbr : v[node])
+  {
+    if(!vis[nbr])
+    {
+      parent = node;
+      if(CycleCheck(nbr))
+        return true;
+    }
+    else if(nbr != parent) // already visited
+    {
+      return true;
+    }
+  }
+  return false;
+}
+for(i=1;i<=n;i++)
+{
+  if(!vis[i])
+  {
+    if(CycleCheck(i))
+    {
+      cout<<"Cycle Present"<<endl;
+      return;
+    }
+  }
+}
+cout<<"Cycle Not Present"<<endl;
+// you can also check cycle using bfs as well..same concept  
