@@ -1,0 +1,38 @@
+//Topological Sort -> In a directed graph, if there is an edge from u to v then in the topological sort, u should always come before v. 
+// We can only find Topological sort for an Directed Acyclic Graph(DAG) only.
+// we can not use this method to check cycle in directed graph -> take some eg and see
+
+const int N = 1e5 + 5;
+vector<bool>vis(N);
+vector<int>v[N];
+stack<int>s;
+void Topo_Sort_DFS(int node)
+{
+  vis[node] = true;
+  for(auto nbr : v[node])
+  {
+    if(!vis[nbr])
+    {
+      Topo_Sort_DFS(nbr);
+    }
+  }
+  s.push(node);
+}
+for(i=1;i<=n;i++)
+{
+  if(!vis[i])
+  {
+    Topo_Sort_DFS(i);
+  }
+}
+vector<int>Topo;
+while(!s.empty())
+{
+  Topo.push_back(s.top());
+  s.pop();
+}
+for(i=0;i<Topo.size();i++)
+{
+  cout<<Topo[i]<<" ";
+}
+cout<<endl;
