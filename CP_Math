@@ -1,0 +1,75 @@
+int gcd(int a,int b)
+{
+  if(b==0) 
+  return a; // it does atmost n-2 recursive calls for  a > b >= 1 && b < Fn(fibonacci) 
+  return gcd(b,a%b);   // time complexity is O(log(min(a,b))), worst when a = Fn && b = Fn-1  
+}
+int extended_gcd(int a,int b,int &x ,int &y)  // Extended Euclid Algo
+{                                             // a*x + b*y = g
+  if(b==0)                                    // OR b*x + (a%b)*y = g
+  {                                           // as a%b = a - b*(a/b);
+     x = 1;
+     y = 0;
+     return a; 
+  }
+  int x1,y1;
+  int g = extended_gcd(b,a%b,x1,y1);
+  x = y1;        // to find modular inverse of a number a, then gcd(a,m) = 1; 
+  y = x1 - y1*(a/b);  // a*x + y*m = 1(gcd(a,m)) => (a*x)%mod  = 1 % mod; // take mod m both sides 
+  return g;           // so inverse a^(-1) = (x%m + m)%m;  // x can be found out using extended algo
+}
+void seive(int n)    // O(n*log(long n))
+{
+    vector<int>prime(n+1,1);
+    prime[0] = prime[1] = 0;
+
+    for(int i = 2;i*i<=n;i++)
+    {
+        for(int j=2*i; j<=n && prime[i] == 1;j = j + i)
+        {
+          prime[j] = 0;
+        }
+    }
+}
+bool isprime(int n)
+{
+    if(n==1)  return false;
+    for(int i = 2; i * i <= n ;i++) 
+    {
+        if(n%i == 0) return false;
+    }
+    return true;
+}
+// phi(p) = p - 1; where p is Prime
+// phi(p^k) = (p^k) - ((p^k)/p); // k>=1 // subtracting no. of multiples of p in [1,p^k]
+// if a,b both are prime => phi(a*b) = phi(a)*phi(b);
+
+// proof of Euler Totient
+// lets assume n = (p1^a1)*(p2^a2)*(p3^a3)...
+// phi(n) = phi(p1^a1)*phi(p2^a2)...
+// phi(n) = n*(1-1/p1)*(1-1/p2)*(1-1/p3)*...
+
+int phi(int n) // count number of integers x in [1,n] such that gcd(x,n) = 1
+{ 
+    int result = n; // Initialize result as n 
+  
+    // Consider all prime factors of n and subtract their 
+    // multiples from result 
+    for (int p = 2; p * p <= n; ++p) { 
+          
+        // Check if p is a prime factor. 
+        if (n % p == 0) { 
+              
+            // If yes, then update n and result 
+            while (n % p == 0) 
+                n /= p; 
+            result -= result / p; 
+        } 
+    } 
+  
+    // If n has a prime factor greater than sqrt(n) 
+    // (There can be at-most one such prime factor) 
+    if (n > 1) 
+        result -= result / n; 
+    return result; 
+} 
