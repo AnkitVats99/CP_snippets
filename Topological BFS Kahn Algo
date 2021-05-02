@@ -1,0 +1,51 @@
+const int N = 1e5 + 5;
+vector<int>indegree(N,0);
+vector<int>v[N];
+void TopoSort_BFS_Kahn()
+{
+   queue<int>q;
+   for(i=1;i<=n;i++)
+   {
+    for(auto nbr : v[i])
+    {
+      indegree[nbr]++;
+    }
+   }
+   for(i=1;i<=n;i++)
+   {
+    if(indegree[i] == 0)
+    {
+      q.push(i);
+    }
+   }
+   vector<int>topo; // to store the topological order
+   while(!q.empty())
+   {
+    int node = q.top();
+    q.pop();
+    topo.push_back(node);
+    for(auto nbr : v[node])
+    {
+      indegree[nbr]--;
+      if(indegree[nbr] == 0)
+      {
+        q.push(nbr);
+      }
+    }
+   }
+   //cycle detection in directed graph -> as topo sort should contain all nodes in directed graph
+
+// if(Topo.size() != n)
+// {
+//   cout<<"Cycle Present"<<endl; 
+// }
+// else
+// {
+//   cout<<"Acyclic"<<endl;
+// } 
+   for(i=0;i<topo;i++)
+   {
+    cout<<topo[i]<<" ";
+   }
+   cout<<endl;
+}    
