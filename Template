@@ -1,0 +1,95 @@
+//a+b = (a^b) + 2*(a&b)
+//b^c = (a^b)^(a^c) 
+//gcd(x,y) = gcd(x-y,y)
+// bit value at ith position changes in interval of 2^i
+// Do not define variables by a weird name
+// always use   (p*1LL >> q)
+// prefer 'int' than 'long long'
+// gcd(Fn,Fm) = Fgcd(n,m)  // Property of Fibonacci 
+// lets prime factorization of n=(p1^e1)*(p2^e2) //total factors will be (e1+1)*(e2+1)
+// and some of factors would be (1+p1+p1^2 + .. p1^e1)*(1+p2+p2^2+...+p2^e2)
+// nC(r) + nC(r+1) = (n+1)C(r+1) => pascal's formula  
+// number of ways to reach (r,c) from (0,0) are (r+c)C(r)
+// (nC0) + (n+1)C1 + (n+2)C2 + ... + (n+k)C(k) = (n+k+1)C(k)
+// n stars and r partition using bars...number of ways = (n+r-1)C(r-1) bcs total r-1 bars would be required
+// n coins and r beggars..each beggar should get atleast 1 coin..solution -> give each, 1 coin at first then repeat the above problem => ((n-r) + r - 1)C(r-1) ways 
+#include<bits/stdc++.h>
+using namespace std;
+#define IOS ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define int long long
+#define mod (int) 1e9 + 7
+#define pb push_back  
+#define endl "\n"
+#define fr first
+#define se second 
+#define ll long long
+#define inf 9000000000000000000
+#define PI 3.14159265359
+#define sz(x) (int)x.size()
+#define prec(n) fixed<<setprecision(n)
+#define maxpq priority_queue<int>
+#define minpq priority_queue<int, vector<int>, greater<int> >
+#define dbg(x) cout<<"x"<<": "<<x<<" "<<endl
+#define dbg2(x,y) cout<<"x"<<": "<<x<<" | "<<"y"<<": "<<y<<endl
+#define dbg3(x,y,z) cout<<"x"<<":" <<x<<" | "<<"y"<<": "<<y<<" | "<<"z"<<": "<<z<<endl
+#define dbg4(a,b,c,d) cout<<"a"<<": "<<a<<" | "<<"b"<<": "<<b<<" | "<<"c"<<": "<<c<<" | "<<"d"<<": "<<d<<endl
+int power(int a,int b,int m=mod)
+{
+     if(b==0)  return 1;
+     if(b==1)  return a;
+     int res=power(a,b/2,m);
+     res=(res*res)%m;
+     if(b%2)  res=(res*a)%m;
+     return res; 
+}
+int modinv(int a,int m=mod){ return power(a,m-2,m);} // using Fermate little theorem ... but it can also be found out using extended gcd(cp algorithms)
+// inverse exists only if gcd(a,m) = 1 // O(long m) // a^(m-1) = 1(from euler theorem => (a^phi(m))%m = 1 and here m is prime so phi(m) = m-1)
+int add(int a,int b,int m=mod){  int c=(a%m+b%m);  if(c>=m)  c-=m;  return c;}
+int sub(int a,int b,int m=mod){  int c=(a%m-b%m);  if(c<0)    c+=m;  return c;}
+int mul(int a,int b,int m=mod){  return (a*b)%m;}
+int gcd(int a,int b){ if(b==0) return a;   return gcd(b,a%b); } // O(log min(a,b)) // Euclid Algo
+
+int fact[1000005];
+void factorial()
+{
+    fact[0] = 1;
+    fact[1] = 1;
+    for(int i=2;i<=1000000;i++) 
+    {
+      fact[i] = mul(i,fact[i-1]);
+    }
+}
+int ncr(int n,int r,int m = mod)
+{
+    if(r>n || n<0 || r<0) return 0;
+    int g = modinv(fact[n-r]);
+    int p = mul(fact[n],g);
+    return mul(p,modinv(fact[r]));
+}
+ll dx[]= {-1,1,0,0};
+ll dy[]= {0,0,-1,1};
+ll dirx[] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+ll diry[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+void solve()
+{
+  
+}
+int32_t main()
+{
+   IOS
+   #ifndef ONLINE_JUDGE
+   freopen("in.txt","r",stdin);
+   freopen("out.txt","w",stdout);
+   #endif 
+   int t=1;
+  // cin>>t;
+   //int w0 = 1;  
+   while(t--)
+   {    
+    // factorial();
+    //cout<<"Case"<<" "<<"#"<<w0<<":"<<" ";
+    //w0++;
+    solve();
+   }
+}
