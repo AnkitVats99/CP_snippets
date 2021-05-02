@@ -1,0 +1,52 @@
+// Bellman Ford Algo -> It finds the shortest path in a graph with negative weights(but dijkstra can't find) but graph should not contain any negative cycle
+const int N = 1e5 + 5;
+vector<pair<int,int>>v[N];
+vector<int>dist(N,INT_MAX);
+void bellman_ford(int src) // O(N*M)
+{
+  dist[src] = 0;
+  for(i=1;i<=n-1;i++)
+  {
+    for(j=1;j<=n;j++)
+    {
+      if(v[j].size() > 0)
+      {
+        int u = j;
+        int v = v[j].first;
+        int weight = v[j].second;
+        if(dist[u] + weight < dist[v])
+        {
+          dist[v] = dist[u] + weight;
+        }
+      }
+    }
+  }
+  // after n-1 relaxation on all edges , we should have got our final distance in shortest path
+  // we run one more relaxation operation on all the edges , if we still get an updated value in 'dist[]' => there is an negative cycle present
+   
+   bool neg_cycle = false;
+   for(i=1;i<=n;i++)
+   {
+    if(v[i].size() > 0)
+    {
+     int u = i;
+     int v = v[i].first;
+     int weight = v[i].second;
+     if(dist[u] + weight < dist[v])
+     {
+      dist[v] = dist[u] + weight;
+      neg_cycle = true;
+      break;
+     }
+    }
+   }
+   if(neg_cycle == true)
+   {
+    cout<<"Negative Cycle is present => we can not find shortest path"<<endl;
+    return;
+   }
+   for(i=1;i<=n;i++)
+   {
+    cout<<dist[i]<<" "; // shortest distance from src node
+   }
+}
