@@ -1,0 +1,30 @@
+int const N = 1e5 + 5;
+vector<int>parent(N,-1);
+vector<int>rank(N,1);
+int find_set(int i) // this func gives us the parent of i
+{
+  if(parent[i] == -1) 
+    {
+      return i; 
+    }
+  return parent[i] = find_set(parent[i]); // path compression
+}
+void union_set(int x,int y)
+{
+  int s1 = find_set(x);
+  int s2 = find_set(y);
+    
+  if(s1 != s2)
+  {
+  if(rank[s1]<rank[s2])  // union by rank
+  {
+    parent[s1] = s2;
+    rank[s2]+=rank[s1]; 
+  }
+  else
+  {
+    parent[s2] = s1;
+    rank[s1]+=rank[s2];
+  }
+  }
+}
