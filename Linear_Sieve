@@ -1,0 +1,14 @@
+// O(N) time complexity
+const int N = 10000000;
+int lp[N+1]; // stores the least prime factor of a number
+vector<int> pr; // stores the prime numbers
+
+for (int i=2; i<=N; ++i) {
+    if (lp[i] == 0) { 
+        lp[i] = i;
+        pr.push_back (i);
+    }
+    for (int j=0; j<(int)pr.size() && pr[j]<=lp[i] && i*pr[j]<=N; ++j)
+        lp[i * pr[j]] = pr[j];
+}
+// Linear Sieve also stores the prime factorization of all numbers till N , by using lp[i] we can easily calculate prime factorization
