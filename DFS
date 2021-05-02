@@ -1,0 +1,22 @@
+const N = 1e5 + 5; 
+vector<bool>vis(N);
+vector<int>v[N]; // edges
+void dfs(int node) // O(n+m)
+{
+  vis[node] = true;
+  for(int nbr : v[node])
+  {
+    if(!vis[nbr])
+      dfs(nbr);
+  }
+}
+// if there is only one path from u to v then edge (u,v) is a bridge
+// to find connected components, we apply bfs/dfs on each component and mark visited
+// Always call dfs/bfs like this ->
+// for(i=1;i<=n;i++)
+// {
+//   if(vis[i] == false)
+//   {
+//     dfs(i); // bfs(i); // src node
+//   }
+// }
