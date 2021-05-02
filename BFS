@@ -1,0 +1,49 @@
+const int N = 1e5 + 5; // number of nodes // O(n+m) where n=nodes,m = edges 
+vector<bool>vis(N);
+vector<int>dist(N,INT_MAX);
+vector<int>parent(N);
+vector<int>v[N]; // for edges
+void bfs(int src)
+{
+  queue<int>q; 
+  q.push(src);
+  vis[src] = true;
+  parent[src] = -1;
+  dist[src] = 0;
+  while(!q.empty())
+  {
+    int node = q.front();
+    q.pop();
+    // cout<<nbr<<endl; // to print the nodes in bfs
+    for(int nbr : v[node])
+    {
+     if(!vis[nbr])
+     {
+      vis[nbr] = true;
+      q.push(nbr);
+      // Always apply this method on unit weighted graphs
+      dist[nbr] = dist[node] + 1;
+      parent[nbr] = node;
+     }
+    }
+  }
+  // to find out shortest path from src to a vertex 'u'
+  // if(!vis[u])
+  // {
+  //   cout<<"NO path"<<endl;
+  // }
+  // else
+  // {
+  //   vector<int>path;
+  //   for(int v = u; v!=-1 ; v = parent[v])
+  //   {
+  //    path.pb(v);
+  //   }
+  //   reverse(path.begin(),path.end());
+  //   for(auto x : path)
+  //   {
+  //     cout<<x<<" ";
+  //   }
+  //   cout<<endl;
+  // }
+}
