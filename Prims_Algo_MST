@@ -1,0 +1,35 @@
+// prims algo -> it is used to find out MST
+const int N = 1e5 + 5;
+vector<int>parent(N,-1);
+vector<int>key(N,INT_MAX);
+vector<bool>mstSet(N,false);
+
+void Prims_Algo(int src) // O(n + m + nlogn)
+{
+  key[src] = 0;
+  parent[src] = -1;
+  set<pair<int,int>>s;
+  s.insert({0,src}); // {dist,src} // src = 0/1
+  for(i=0;i<n-1;i++)
+  {
+    int node = (s.begin() -> second);
+    s.erase({dist[node],node});
+    mstSet[node] = true; // included in MST
+    for(auto nbr : v[node])
+    {
+      int v = nbr.first;
+      int weight = nbr.second;
+      if(mstSet[nbr] == false && weight < key[v])
+      {
+        key[v] = weight;
+        parent[v] = u;
+        s.insert({key[v],v});
+      }
+    }
+  }
+  // to print edges of MST
+  for(i=1+src;i<n+src;i++)
+  {
+   cout<<parent[i]<<"<->"<<i<<endl; // in MST, there is an edge between parent[i] & i
+  }
+}
