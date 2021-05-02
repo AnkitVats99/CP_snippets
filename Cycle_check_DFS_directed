@@ -1,0 +1,35 @@
+const int N = 1e5 + 5;
+vector<bool>vis(N);
+vector<bool>dfsvis(N);
+
+bool checkCycle(int node)
+{
+  vis[node] = true;
+  dfsvis[node] = true;
+  for(auto nbr : v[node])
+  {
+    if(!vis[nbr])
+    {
+      if(checkCycle(nbr))
+        return true;
+    }
+    else if(dfsvis[nbr])
+    {
+      return true;
+    }
+  }
+  dfsvis[node] = false;
+  return false;
+}
+for(i=1;i<=n;i++)
+{
+  if(!vis[i])
+  {
+    if(checkCycle(i))
+    {
+      cout<<"Cycle is present"<<endl;
+      return;
+    }
+  }
+}
+cout<<"Cycle is not present"<<endl;
