@@ -1,0 +1,72 @@
+//Strongly Connected Component(SSC) -> component in which its possible to reach from any node to any node
+// Kosaraju's Algo -> It find all SSC in a graph
+// step 1 -> find topological sort of the graph
+// step 2 -> get the transpose of graph (reverse every edge direction)
+// step 3 -> run dfs on the topological sort and print the SSC in the dfs function
+
+const int N = 1e5 + 5;
+vector<int>v[N];
+vector<int>v_trans[N]; // transpose of graph
+vector<bool>vis(N,false);
+
+//Topological Sort -> In a directed graph, if there is an edge from u to v then in the topological sort, u should always come before v. 
+// We can only find Topological sort for an Directed Acyclic Graph(DAG) only.
+// we can not use this method to check cycle in directed graph -> take some eg and see
+stack<int>s;
+void Topo_Sort_DFS(int node)
+{
+  vis[node] = true;
+  for(auto nbr : v[node])
+  {
+    if(!vis[nbr])
+    {
+      Topo_Sort_DFS(nbr);
+    }
+  }
+  s.push(node);
+}
+void dfs(int node) // O(n+m)
+{
+  vis[node] = true;
+  cout<<node<<" "; // to print SSC
+  for(int nbr : v_trans[node]) // we are using transpose graph(v_trans) here 
+  {
+    if(!vis[nbr])
+      dfs(nbr);
+  }
+}
+void Kosaraju_SSC()
+{
+  for(int i=0;i<m;i++)
+  {
+   int x,y;
+   cin>>x>>y;
+   v[x].pb(y);
+   v_trans[y].pb(x);
+  }
+  for(i=1;i<=n;i++)
+  {
+   if(!vis[i])
+   {
+    Topo_Sort_DFS(i);
+   }
+  }
+  vector<int>Topo;
+  while(!s.empty())
+  {
+   Topo.push_back(s.top());
+   s.pop();
+  }
+  for(i=1;i<=n;i++) // we are initializing vis again to use it in dfs on topological sort
+  {
+   vis[i] = false;
+  }
+  for(i=0;i<Topo.size();i++)
+  {
+   if(!vis[Topo[i]])
+   {
+    dfs(Topo[i]);
+   }
+   cout<<endl;
+  }
+}
