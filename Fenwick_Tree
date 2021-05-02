@@ -1,0 +1,39 @@
+const int N = 1e5+5;
+int fen[N];
+void update_fen(int i,int add) // addition of 'add' at index i
+{
+  while(i<N)
+  {
+      fen[i] += add;
+      i = i + (i&(-i));  // AND operation of i with its 2's compliment(-i) 
+  }
+}
+int sum_fen(int i) // sum till [0,i]
+{
+    int s = 0;
+    while(i>0)
+    {
+        s = s + fen[i];
+        i = i - (i&(-i));
+    }
+}
+int range_sum_fen(int l,int r) 
+{
+    return sum_fen(r) - sum_fen(l-1);
+}
+
+// binary lifting on fenwick tree(or finding the lower bound index of k)
+
+int findLowerBound(int k)
+{
+    int curr = 0, prevsum = 0 ;
+    for(int i = log2(n);i>=0;i--)   // n = number of elements in fenwick tree
+     {
+        if(fen[curr + (1<<i)] + prevsum < k)
+        {
+           curr = curr + (1<<i);
+           prevsum = prevsum + fen[curr]; 
+        }
+    } 
+    return curr+1;
+}
