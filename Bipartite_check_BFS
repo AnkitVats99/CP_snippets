@@ -1,0 +1,42 @@
+// Bipartite Graph -> If We color a graph using 2 colors such that no two adjacent nodes have same color then it is Bipartite Graph 
+const int N = 1e5 + 5;
+vector<int>color(N,-1);
+vector<int>v[N];
+
+bool CheckBipartite(int src,int x)
+{
+  queue<int>q;
+  q.push(src);
+  color[src] = x; // start x with 0 or 1
+  while(!q.empty())
+  {
+    int node = q.top();
+    q.pop();
+    for(auto nbr : v[node])
+    {
+      if(color[nbr] == -1) // not visited yet
+      {
+        color[nbr] = 1 - color[node];
+        q.push(nbr);
+      }
+      else if(color[nbr] == color[node])
+      {
+         return false;
+      }
+    }
+  }
+  return true;
+}
+
+for(int i=1;i<=n;i++)
+{
+  if(color[i] == -1)
+  {
+    if(!CheckBipartite(i,0))
+    {
+      cout<<"Graph is not Bipartite"<<endl;
+      return;
+    }
+  }
+}
+cout<<"Graph is Bipartite"<<endl; 
